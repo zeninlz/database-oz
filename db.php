@@ -2,7 +2,7 @@
 class Database {
     public $pdo;
     
-    public function __construct($db= "test", $user= "root", $pass="", $host= "localhost"){
+    public function __construct($db= "user", $user= "root", $pass="", $host= "localhost"){
     
         try{
             $this->pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
@@ -14,9 +14,14 @@ class Database {
         }
 
         }
+    }       
+    public function optellen($a, $b){
+        $sql = "INSERT INTO student (email, password) VALUES (:email, :password)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':email' => $a, 'password' => $b]);
+
     }
     
 }
-
 
 ?> 
