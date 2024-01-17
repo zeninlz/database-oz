@@ -30,15 +30,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <th>password</th>
         <th colspan"2">action</th>
     </tr>
+
+    <tr>
+        <?php 
+        $users = $connetie->slectOneUser(16);?>
+         <td><?php echo $users['id'];?></td>
+        <td><?php echo $users['name'];?></td>
+        <td><?php echo $users['password'];?></td>
+    </tr>
+
+    <tr>
+        <?php 
+        $users = $connetie->slectUser();
+        foreach ($users as $user) {?>
+        <td><?php echo $user['name'];?></td>
+        <td><?php echo $user['password'];?></td>
+    </tr> <?php } ?>
+            
     <tr>
         <?php 
         $users = $connetie->slect();
         foreach ($users as $user) {?>
         <td><?php echo $user['name'];?></td>
         <td><?php echo $user['password'];?></td>
-        <td><a href="edit.php?id=<?php echo $user['id'];?>&name=<?php echo $user['name'];?>">edit</a></td>
-        <td><a href="delete.php?id=<?php echo $user['id'];?>">delete</a></td>
-
+        <td><a href="edit.php?id<?php echo $user['name'];?><?php echo $user['password'];?>">edit</a></td>
+        <td><a href="delete.php?id<?php echo $user['name'];?><?php echo $user['password'];?>">delete</a></td>
     </tr> <?php } ?>
 </table>
 

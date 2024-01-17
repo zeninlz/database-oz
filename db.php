@@ -1,4 +1,7 @@
 <?php
+
+use PhpParser\Node\Stmt;
+
 class Database {
     public $pdo;
     
@@ -17,6 +20,7 @@ class Database {
     }       
     public function insertUser($name, $password){
         $stmt = $this->pdo->prepare("insert into user (name, password) values (?, ?)");
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $stmt-> execute([$name, $password]);
     }
     
@@ -27,12 +31,46 @@ class Database {
         return $result;
 
     }
+    public function slect( int $id = null ){
+        if($id){
+             $stmt = $this->pdo->prepare("SELECT *FROM user WHERE id = ?" );
+             
+             $stmt->execute([$id]);
+            $result = $stmt->fetch();
+            return $result;
+        }
+        $stmt = $this->pdo->query("SELECT * From user");
+        $result = $stmt->fetchAll();
+        return $result;
+
+    }
     public function slectOneUser($id){
         $stmt = $this->pdo->prepare("SELECT *FROM user Where id = ?");
         $stmt->execute([$id]);
         $result = $stmt->fetch();
         return $result;
     }
+
+    public function editUser($name, $password, $id){
+        $stmt = $this->pdo->prepare("UPDATE `user` SET `name` = ?, `password` = ? WHERE `id` = ?");
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->execute([$name , $password, $id]);
+    
+    }
+    public function deleteUser( int $id){
+        $stmt = $this->pdo->prepare("DELETE FROM user WHERE `id` = ?");
+        $stmt->execute([ $id]);
+    
+    }
+
+
+    public function register(string $name , string $achternaam , string $geboortedatum, string $email , string $password){
+    $stmt = $this->pdo->prepare("INSERT INTO users (name ,achternaam, geboortedatum, email, wachtwoord) VALUES (?,?,?,?,?)");
+        $stmt->execute([$name, $achternaam,$geboortedatum , $email , $password]);
+
+
+    }
+
 }
 
 ?> 
